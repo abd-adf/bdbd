@@ -1,0 +1,8 @@
+# Source files (not needed for deployment)
+Landing page/
+Photos couleur 2/
+
+# OS files
+.DS_Store
+.thumbnail
+Thumbs.db

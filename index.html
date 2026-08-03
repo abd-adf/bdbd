@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'DK Lemon';src:url('assets/DKLemonYellowSun.otf') format('opentype');font-display:swap;}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:#FFFFFF;color:#3a3733;font-family:'Mulish',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
+a{color:#E4006B;text-decoration:none;}
+a:hover{color:#c2005c;}
+@keyframes snowfall{0%{transform:translateY(-10vh) translateX(0) rotate(0deg);opacity:0;}12%{opacity:.85;}100%{transform:translateY(112vh) translateX(46px) rotate(360deg);opacity:.1;}}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-8px) rotate(-4deg);}}
+</style>
+</helmet>
+
+<div style="position:relative;overflow:hidden;">
+<div style="position:fixed;inset:0;pointer-events:none;z-index:80;">{{ snowLayer }}</div>
+
+<!-- ===== TOP BAR ===== -->
+<header style="position:sticky;top:0;z-index:70;background:#276574;border-bottom:1px solid rgba(255,255,255,.12);">
+  <div style="max-width:1180px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <a href="#top" style="display:flex;align-items:center;gap:12px;">
+      <span style="display:flex;align-items:center;justify-content:center;width:112px;height:112px;background:#fff;border-radius:50%;padding:5px;">
+        <img src="assets/logo-bdbd-sm.png" alt="Bras dessus Bras dessous" style="max-width:100%;max-height:100%;object-fit:contain;display:block;">
+      </span>
+    </a>
+    <a href="{{ donateUrl }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:#E4006B;color:#fff;font-weight:900;font-size:14.5px;letter-spacing:.04em;padding:12px 24px;border-radius:999px;box-shadow:0 6px 18px rgba(228,0,107,.35);" style-hover="background:#c2005c;transform:translateY(-1px);">
+      JE FAIS UN DON
+    </a>
+  </div>
+</header>
+
+<!-- ===== HERO (teal) ===== -->
+<section id="top" style="background:#276574;color:#fff;">
+  <div style="max-width:1180px;margin:0 auto;padding:clamp(28px,3.5vw,54px) 24px clamp(36px,4.5vw,64px);display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,52px);align-items:stretch;">
+    <div style="flex:1 1 480px;min-width:320px;display:flex;flex-direction:column;">
+      <h1 style="font-family:'DK Lemon','Mulish',sans-serif;font-weight:400;line-height:1.04;margin:0;font-size:clamp(36px,4.8vw,60px);letter-spacing:.01em;color:#fff;">
+        Offrons aux aînés qui sont seuls un moment de joie à Noël
+      </h1>
+      <p style="font-family:'Newsreader',serif;font-size:clamp(18px,2vw,22px);line-height:1.5;color:#d7e8ec;margin:16px 0 0;max-width:36ch;">Cette fin d'année, offrez une présence, un sourire, un moment partagé — et changez le quotidien d'une personne isolée.</p>
+      <div style="position:relative;flex:1;min-height:clamp(300px,26vw,400px);margin-top:clamp(20px,2.5vw,28px);border-radius:24px;overflow:hidden;box-shadow:0 26px 50px -24px rgba(0,0,0,.55);">
+        <img src="assets/hero-joie.jpg" alt="Un aîné et sa Voisineuse partagent un éclat de rire" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 32%;">
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:38px 24px 18px;background:linear-gradient(to top,rgba(18,42,49,.85),transparent);font-family:'Newsreader',serif;font-style:italic;font-size:clamp(16px,1.8vw,20px);color:#fff;">« Il y a quelqu'un qui pense à moi. »</div>
+      </div>
+    </div>
+
+    <!-- don card + réassurance -->
+    <div style="flex:1 1 380px;min-width:300px;display:flex;flex-direction:column;gap:16px;">
+    <div style="background:#fff;color:#3a3733;border-radius:22px;padding:10px;box-shadow:0 30px 60px -26px rgba(0,0,0,.5);">
+      <div style="background:#276574;color:#fff;border-radius:14px;padding:16px 18px;text-align:center;font-weight:800;font-size:17px;">Des fêtes de fin d'année sans solitude&nbsp;!</div>
+      <div style="padding:18px 18px 20px;">
+        <p style="text-align:center;font-size:14.5px;color:#5c574f;margin:0 0 16px;">Grâce à votre soutien, un aîné ne sera pas seul pour les fêtes.</p>
+        <sc-for list="{{ amounts }}" as="amt" hint-placeholder-count="3">
+          <a href="{{ amt.url }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:14px;border:2px solid {{ amt.border }};background:{{ amt.bg }};border-radius:14px;padding:12px 14px;margin-bottom:10px;" style-hover="border-color:#E4006B;box-shadow:0 8px 18px -10px rgba(228,0,107,.5);">
+            <span style="flex:0 0 auto;font-family:'DK Lemon',sans-serif;font-size:30px;line-height:1;color:#E4006B;min-width:72px;text-align:center;">{{ amt.montant }}</span>
+            <span style="flex:1;font-size:13px;line-height:1.4;color:#4a453e;">{{ amt.impact }}</span>
+          </a>
+        </sc-for>
+        <a href="{{ donateUrl }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#E4006B;color:#fff;font-weight:900;letter-spacing:.04em;font-size:17px;padding:15px;border-radius:12px;margin-top:6px;box-shadow:0 10px 24px rgba(228,0,107,.32);" style-hover="background:#c2005c;">
+          JE FAIS MON DON →
+        </a>
+        <p style="text-align:center;font-size:11.5px;color:#9a938a;margin:12px 0 0;">Paiement sécurisé · propulsé par iRaiser</p>
+      </div>
+    </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:12px 15px;color:#fff;font-size:14px;font-weight:600;"><span style="color:#ffd9e8;font-size:17px;line-height:1;">✓</span> Don déductible d'impôt (réduction de 45 %)</div>
+        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:12px 15px;color:#fff;font-size:14px;font-weight:600;"><span style="color:#ffd9e8;font-size:17px;line-height:1;">✓</span> Association agréée par le Ministère des Finances</div>
+        <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:12px 15px;color:#fff;font-size:14px;font-weight:600;"><span style="color:#ffd9e8;font-size:17px;line-height:1;">✓</span> Paiement 100 % sécurisé, en 2 minutes</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATEMENT BOXES ===== -->
+<section style="max-width:1180px;margin:0 auto;padding:clamp(44px,6vw,80px) 24px clamp(20px,3vw,40px);">
+  <!-- box 1 magenta -->
+  <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,44px);align-items:center;">
+    <div style="flex:1 1 440px;min-width:300px;background:#E4006B;color:#fff;border-radius:26px;padding:clamp(30px,3.5vw,48px);">
+      <h2 style="font-family:'DK Lemon',sans-serif;font-weight:400;font-size:clamp(28px,3.6vw,44px);line-height:1.08;margin:0;">En Belgique, une personne âgée sur quatre souffre de solitude.</h2>
+      <p style="font-size:16px;line-height:1.62;color:#ffe3ee;margin:18px 0 0;">Pour combattre ce sentiment d'abandon, nous accompagnons depuis 2016 des centaines de personnes âgées en tissant des liens au cœur des quartiers : visites à domicile, balades, sorties, ateliers de jeux ou cours de cuisine.</p>
+    </div>
+    <div style="flex:1 1 300px;min-width:260px;display:flex;align-items:center;justify-content:center;padding:6px;">
+      <img src="assets/illu-cafe.webp" alt="Deux personnes discutent autour d'un café" style="width:100%;max-width:440px;height:auto;display:block;">
+    </div>
+  </div>
+  <!-- box 2 teal -->
+  <div style="display:flex;flex-wrap:wrap-reverse;gap:clamp(20px,3vw,44px);align-items:center;margin-top:clamp(20px,3vw,36px);">
+    <div style="flex:1 1 300px;min-width:260px;display:flex;align-items:center;justify-content:center;padding:6px;">
+      <img src="assets/illu-groupe.webp" alt="Des voisins se rencontrent" style="width:100%;max-width:440px;height:auto;display:block;">
+    </div>
+    <div style="flex:1 1 440px;min-width:300px;background:#276574;color:#fff;border-radius:26px;padding:clamp(30px,3.5vw,48px);">
+      <h2 style="font-family:'DK Lemon',sans-serif;font-weight:400;font-size:clamp(28px,3.6vw,44px);line-height:1.08;margin:0;">Ensemble, brisons la solitude de nos aînés à Noël</h2>
+      <p style="font-size:16px;line-height:1.62;color:#d7e8ec;margin:18px 0 22px;">Pendant les fêtes, quand l'absence des proches ou des disparus se fait encore plus pesante, il nous faut redoubler d'attention et renforcer nos actions.</p>
+      <p style="font-family:'DK Lemon',sans-serif;font-size:clamp(24px,2.6vw,32px);color:#ffd9e8;margin:0 0 22px;">Nous avons besoin de vous !</p>
+      <a href="{{ donateUrl }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;background:#E4006B;color:#fff;font-weight:900;letter-spacing:.04em;font-size:16px;padding:14px 30px;border-radius:999px;box-shadow:0 10px 24px rgba(228,0,107,.35);" style-hover="background:#c2005c;transform:translateY(-2px);">JE FAIS UN DON</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== IMPACT IMMERSIF ===== -->
+<section style="position:relative;min-height:clamp(380px,48vw,560px);overflow:hidden;">
+  <img src="assets/impact-sourire.jpg" alt="Une aînée au sourire radieux" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:left center;">
+  <div style="position:absolute;inset:0;background:linear-gradient(270deg,rgba(18,42,49,.9),rgba(18,42,49,.5) 46%,rgba(18,42,49,.06));"></div>
+  <div style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(44px,6vw,90px) 24px;display:flex;align-items:center;justify-content:flex-end;min-height:clamp(380px,48vw,560px);">
+    <div style="max-width:34ch;color:#fff;text-align:left;">
+      <p style="font-weight:800;letter-spacing:.14em;font-size:13px;color:#ffd9e8;text-transform:uppercase;margin:0;">Votre don, c'est ce sourire</p>
+      <p style="font-family:'DK Lemon',sans-serif;font-weight:400;font-size:clamp(30px,4vw,52px);line-height:1.08;margin:14px 0 0;">« Quand je vois quelqu'un, je me sens plus légère après. »</p>
+      <p style="font-size:16.5px;line-height:1.6;color:#e4eef0;margin:18px 0 26px;max-width:40ch;">Chaque visite, chaque sortie que vous financez transforme une journée de solitude en un moment attendu, partagé, heureux.</p>
+      <a href="{{ donateUrl }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;background:#E4006B;color:#fff;font-weight:900;letter-spacing:.04em;font-size:16px;padding:15px 32px;border-radius:999px;box-shadow:0 12px 28px rgba(228,0,107,.4);" style-hover="background:#c2005c;transform:translateY(-2px);">JE FAIS UN DON</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NOS ACTIONS ===== -->
+<section id="actions" style="background:#EFEEEB;">
+  <div style="max-width:1000px;margin:0 auto;padding:clamp(44px,6vw,78px) 24px;">
+    <h2 style="font-family:'DK Lemon',sans-serif;font-weight:400;font-size:clamp(30px,4.2vw,48px);line-height:1.02;margin:0;text-align:center;color:#276574;">Nos actions tout au long de l'année</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(28px,4vw,56px);margin-top:40px;">
+      <div>
+        <h3 style="font-weight:800;font-size:22px;color:#276574;margin:0 0 10px;">Le voisinage solidaire</h3>
+        <p style="font-size:16.5px;line-height:1.62;color:#4a453e;margin:0;">Nous formons des duos entre un aîné et un·e bénévole habitant à proximité, le Voisineur. Ensemble, ils partagent des moments réguliers à domicile ou à l'extérieur : discussions, balades, sorties conviviales.</p>
+      </div>
+      <div>
+        <h3 style="font-weight:800;font-size:22px;color:#276574;margin:0 0 10px;">Les activités collectives</h3>
+        <p style="font-size:16.5px;line-height:1.62;color:#4a453e;margin:0;">Nous organisons des temps de rencontre chaleureux et accessibles à toutes et tous : goûters, repas partagés, ateliers créatifs, sorties culturelles et une journée à la mer.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <a href="https://www.brasdessusbrasdessous.be/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:#276574;color:#fff;font-weight:800;letter-spacing:.04em;font-size:14.5px;padding:14px 28px;border-radius:999px;" style-hover="background:#1f515d;">PLUS D'INFORMATIONS SUR NOS ACTIONS</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS + ANTENNES ===== -->
+<section style="max-width:1120px;margin:0 auto;padding:clamp(44px,6vw,80px) 24px;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(24px,4vw,48px);align-items:center;">
+    <div style="text-align:center;">
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:120px;height:120px;border-radius:50%;background:#276574;color:#fff;font-family:'DK Lemon',sans-serif;font-size:34px;line-height:.95;padding:10px;">10 ans</div>
+      <p style="font-weight:700;font-size:16px;color:#276574;margin:14px 0 0;">d'action de proximité, depuis 2016</p>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-family:'DK Lemon',sans-serif;font-size:clamp(52px,7vw,72px);line-height:1;color:#E4006B;">748</div>
+      <p style="font-weight:700;font-size:16px;color:#276574;margin:8px 0 0;">binômes solidaires créés</p>
+      <div style="font-family:'DK Lemon',sans-serif;font-size:clamp(52px,7vw,72px);line-height:1;color:#276574;margin-top:22px;">12 000+</div>
+      <p style="font-weight:700;font-size:16px;color:#276574;margin:8px 0 0;">moments de voisinage · 158 moments collectifs</p>
+    </div>
+    <div style="font-size:15.5px;line-height:1.6;color:#4a453e;">
+      <p style="font-weight:800;color:#276574;margin:0 0 4px;">À Bruxelles</p>
+      <p style="margin:0 0 14px;">4 antennes historiques (Forest, Uccle, Anderlecht, Saint-Gilles) et 1 nouvelle antenne à Watermael-Boitsfort.</p>
+      <p style="font-weight:800;color:#276574;margin:0 0 4px;">En région wallonne</p>
+      <p style="margin:0;">2 antennes provinciales : Brabant wallon (Rixensart, Ottignies-LLN, Nivelles) et Hainaut (La Louvière, Morlanwelz).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DONATION HIGHLIGHT ===== -->
+<section id="don" style="max-width:1080px;margin:0 auto;padding:clamp(46px,6vw,84px) 24px;text-align:center;">
+  <div style="font-size:0;line-height:0;margin:0 auto;">{{ snowCluster }}</div>
+  <h2 style="font-family:'DK Lemon',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,52px);line-height:1.08;margin:18px 0 0;">
+    <span style="color:#276574;">Continuons à réchauffer</span><br><span style="color:#E4006B;">le cœur de nos aînés</span>
+  </h2>
+  <div style="width:120px;height:3px;background:#E4006B;border-radius:2px;margin:22px auto 0;"></div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:40px;text-align:left;">
+    <div style="border-radius:22px;overflow:hidden;box-shadow:0 22px 44px -28px rgba(36,31,27,.5);">
+      <div style="height:230px;position:relative;"><img src="assets/hero-tandem.jpg" alt="Une sortie accompagnée" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></div>
+      <div style="background:#276574;color:#fff;padding:22px 24px 26px;text-align:center;">
+        <p style="font-weight:800;font-size:16px;margin:0;">Avec un don de</p>
+        <div style="font-family:'DK Lemon',sans-serif;font-size:52px;line-height:1;margin:6px 0 12px;">40 €</div>
+        <p style="font-size:15px;line-height:1.5;color:#d7e8ec;margin:0;">vous financez une sortie culturelle ou un concert pour 1 personne âgée seule.</p>
+      </div>
+    </div>
+    <div style="border-radius:22px;overflow:hidden;box-shadow:0 22px 44px -28px rgba(36,31,27,.5);">
+      <div style="height:230px;position:relative;"><img src="assets/don-collectif.jpg" alt="Un moment collectif autour d'un jeu et d'un café" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></div>
+      <div style="background:#E4006B;color:#fff;padding:22px 24px 26px;text-align:center;">
+        <p style="font-weight:800;font-size:16px;margin:0;">Avec un don de</p>
+        <div style="font-family:'DK Lemon',sans-serif;font-size:52px;line-height:1;margin:6px 0 12px;">60 €</div>
+        <p style="font-size:15px;line-height:1.5;color:#ffe3ee;margin:0;">vous financez un dîner de réveillon collectif et solidaire pour 2 personnes âgées et isolées.</p>
+      </div>
+    </div>
+  </div>
+
+  <a href="{{ donateUrl }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:#E4006B;color:#fff;font-weight:900;letter-spacing:.04em;font-size:18px;padding:17px 42px;border-radius:999px;margin-top:38px;box-shadow:0 14px 30px rgba(228,0,107,.32);" style-hover="background:#c2005c;transform:translateY(-2px);">
+    JE FAIS UN DON
+  </a>
+  <p style="font-size:13.5px;color:#7d766c;margin:22px auto 0;max-width:66ch;line-height:1.6;">
+    Bras dessus Bras dessous est une association agréée par le Ministère des Finances : tout don à partir de 40 € ouvre droit à une réduction d'impôt. Pensez à nous transmettre votre numéro de registre national et votre adresse pour recevoir votre attestation fiscale.
+  </p>
+</section>
+
+<!-- ===== FOOTER (teal) ===== -->
+<footer style="background:#276574;color:#d7e8ec;text-align:center;">
+  <div style="max-width:820px;margin:0 auto;padding:clamp(40px,5vw,64px) 24px;">
+    <span style="display:inline-flex;align-items:center;justify-content:center;width:120px;height:120px;background:#fff;border-radius:50%;padding:16px;">
+      <img src="assets/logo-bdbd-sm.png" alt="Bras dessus Bras dessous" style="max-width:100%;max-height:100%;object-fit:contain;">
+    </span>
+    <p style="font-weight:900;letter-spacing:.08em;font-size:15px;color:#fff;margin:20px 0 2px;">ASBL BRAS DESSUS BRAS DESSOUS</p>
+    <p style="font-family:'DK Lemon',sans-serif;font-size:28px;color:#ffd9e8;margin:0 0 24px;">Bien vieillir ensemble</p>
+    <a href="{{ donateUrl }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;background:#E4006B;color:#fff;font-weight:900;letter-spacing:.04em;font-size:16px;padding:15px 34px;border-radius:999px;box-shadow:0 10px 24px rgba(228,0,107,.35);" style-hover="background:#c2005c;transform:translateY(-1px);">JE FAIS UN DON</a>
+    <p style="font-size:14px;line-height:1.8;margin:28px 0 0;">
+      Tél : 0486 76 62 89 &nbsp;·&nbsp; <a href="mailto:info@brasdessusbrasdessous.be" style="color:#fff;">info@brasdessusbrasdessous.be</a> &nbsp;·&nbsp; N° entreprise : 06.43.60.61.83<br>
+      14, place de l'Altitude Cent — 1190 Forest
+    </p>
+    <p style="font-size:12.5px;color:#9dc0c7;margin:22px 0 0;">© 2026 Bras dessus Bras dessous · Don sécurisé · Attestation fiscale dès 40 €</p>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200},&quot;donateUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://je-soutiens.brasdessusbrasdessous.be/b?cid=7&amp;lang=fr_FR#iraiser_native&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Don&quot;},&quot;showChristmas&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Ambiance&quot;,&quot;label&quot;:&quot;Touche de Noël&quot;},&quot;snow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Ambiance&quot;,&quot;label&quot;:&quot;Neige animée&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const donateUrl = this.props.donateUrl || "https://je-soutiens.brasdessusbrasdessous.be/b?cid=7&lang=fr_FR#iraiser_native";
+    const amounts = [
+      { montant: "40 €", impact: "Une sortie culturelle ou un concert pour 1 aîné·e seul·e.", url: donateUrl, bg: "#fff", border: "rgba(36,31,27,.14)" },
+      { montant: "60 €", impact: "Un dîner de réveillon collectif et solidaire pour 2 aîné·es.", url: donateUrl, bg: "#fff5f9", border: "#E4006B" },
+      { montant: "Libre", impact: "Vous choisissez le montant. Chaque geste compte.", url: donateUrl, bg: "#fff", border: "rgba(36,31,27,.14)" },
+    ];
+
+    const showChristmas = this.props.showChristmas ?? true;
+    const snow = this.props.snow ?? true;
+
+    // section snowflake cluster ornament
+    let snowCluster = null;
+    if (showChristmas) {
+      const parts = [];
+      const conf = [
+        { s: 30, c: "#E4006B", o: 1 }, { s: 20, c: "#f06aa0", o: 1 }, { s: 36, c: "#E4006B", o: 1 },
+        { s: 22, c: "#276574", o: 1 }, { s: 28, c: "#f06aa0", o: 1 }, { s: 18, c: "#E4006B", o: 1 },
+      ];
+      conf.forEach((f, i) => parts.push(React.createElement("span", {
+        key: i, style: { fontSize: f.s + "px", color: f.c, margin: "0 3px", verticalAlign: "middle", lineHeight: 1 }
+      }, "❄")));
+      snowCluster = React.createElement("div", { style: { display: "inline-flex", alignItems: "center", flexWrap: "wrap", justifyContent: "center", gap: "2px" } }, parts);
+    }
+
+    // falling snow overlay
+    let snowLayer = null;
+    if (showChristmas && snow) {
+      const flakes = [];
+      const n = 24;
+      for (let i = 0; i < n; i++) {
+        const left = (i * 41) % 100;
+        const size = 7 + (i % 5) * 3;
+        const dur = 10 + (i % 7) * 2.2;
+        const delay = -(i * 1.9);
+        flakes.push(React.createElement("span", {
+          key: i,
+          style: {
+            position: "absolute", top: "-5vh", left: left + "%",
+            fontSize: size + "px",
+            color: i % 5 === 0 ? "rgba(39,101,116,.35)" : "rgba(228,0,107,.42)",
+            animation: `snowfall ${dur}s linear ${delay}s infinite`,
+          },
+        }, "❄"));
+      }
+      snowLayer = React.createElement("div", { style: { position: "absolute", inset: 0 } }, flakes);
+    }
+
+    return { donateUrl, amounts, snowCluster, snowLayer };
+  }
+}
+</script>
+</body>
+</html>
