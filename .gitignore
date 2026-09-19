@@ -9,3 +9,9 @@ Thumbs.db
 
 ressources/
 email/
+
+# Local source exports and credentials
+BDBD_LP_EOY/
+photos marcel/
+.env
+.env.*
